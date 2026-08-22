@@ -1,0 +1,30 @@
+local L = LibStub("AceLocale-3.0"):NewLocale("Camera", "esES")
+
+if not L then return end
+
+L["Camera"] = "Cámara"
+L["Enable Camera"] = "Activar Cámara"
+L["Apply the custom camera speeds"] = "Aplicar velocidades de cámara personalizadas"
+L["Yaw Speed (Horizontal)"] = "Velocidad de Guiñada (Horizontal)"
+L["Lower = slower horizontal mouse look. Default game value is ~90-180."] =
+"Más bajo = mirada horizontal más lenta. Valor por defecto ~90-180."
+L["Pitch Speed (Vertical)"] = "Velocidad de Cabeceo (Vertical)"
+L["Lower = slower vertical mouse look."] = "Más bajo = mirada vertical más lenta."
+L["Apply Now"] = "Aplicar ahora"
+L["Apply the current values immediately"] = "Aplicar los valores actuales inmediatamente"
+L["Defaults"] = "Valores predeterminados"
+L["Reset to standard Blizzard camera values"] = "Restablecer a los valores de cámara estándar de Blizzard"
+L["Camera addon enabled – custom values applied"] = "Addon de Cámara activado – valores personalizados aplicados"
+L["Camera addon disabled – Blizzard defaults restored"] = "Addon de Cámara desactivado – valores predeterminados de Blizzard restaurados"
+L["Yaw Smooth Speed"] = "Velocidad de suavizado horizontal"
+L["How quickly the camera smooths horizontally."] = "Qué tan rápido suaviza la cámara horizontalmente."
+L["Pitch Smooth Speed"] = "Velocidad de suavizado vertical"
+L["How quickly the camera smooths vertically."] = "Qué tan rápido suaviza la cámara verticalmente."
+L["Camera Bobbing"] = "Balanceo de cámara"
+L["Enable head-bob while moving."] = "Activar el balanceo de la cabeza al moverse."
+L["Terrain Tilt"] = "Inclinación del terreno"
+L["Camera tilts to follow the terrain."] = "La cámara se inclina para seguir el terreno."
+L["Camera Pivot"] = "Pivote de cámara"
+L["Camera stops when it hits the ground."] = "La cámara se detiene al tocar el suelo."
+L["Water Collision"] = "Colisión con el agua"
+L["Camera collides with the water surface."] = "La cámara colisiona con la superficie del agua."

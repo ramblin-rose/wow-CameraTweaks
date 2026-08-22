@@ -1,0 +1,32 @@
+{
+  "name": "camera",
+  "version": "0.1.0",
+  "description": "WoW addon that allows game camera options",
+  "keywords": [
+    "WoW",
+    "AddOn",
+    "Camera"
+  ],
+  "homepage": "https://github.com/ramblin-rose/wow-Camera#readme",
+  "bugs": {
+    "url": "https://github.com/ramblin-rose/wow-Camera/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramblin-rose/wow-Camera.git"
+  },
+  "license": "MIT",
+  "author": "RamblinRose",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "gulp": "^5.0.1",
+    "gulp-zip": "^6.1.0"
+  },
+  "devDependencies": {
+    "del": "^8.0.1"
+  }
+}
