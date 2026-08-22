@@ -1,10 +1,4 @@
-## Interface: 11509
-## Interface: 20506
-## Interface: 30405
-## Interface: 40402
-## Interface: 50504
-## Interface: 110007
-## Interface: 120000
+## Interface: 11509, 20506, 50504, 120100
 ## Author: RamblinRose
 ## Version: 1.0.0
 ## IconTexture: Interface\AddOns\Camera\INV_Misc_SelfieCamera_Red_Camera
