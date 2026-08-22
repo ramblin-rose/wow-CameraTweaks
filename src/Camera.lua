@@ -1,11 +1,4 @@
 local addonName, addon = ...
-
--- Early force-locale support (must run before AceLocale:GetLocale)
--- CameraDB already exists from SavedVariables if the user has set a locale before
-if CameraDB and CameraDB.global and CameraDB.global.forceLocale then
-	GAME_LOCALE = CameraDB.global.forceLocale
-end
-
 local AceAddon = LibStub("AceAddon-3.0")
 local AceDB = LibStub("AceDB-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
@@ -30,9 +23,6 @@ function Camera:IsDisabled()
 end
 
 local defaults = {
-	global = {
-		forceLocale = nil, -- nil = use real client locale
-	},
 	profile = {
 		yawSpeed = 30,
 		pitchSpeed = 30,
@@ -260,17 +250,11 @@ local options = {
 
 function Camera:OnInitialize()
 	self.db = AceDB:New("CameraDB", defaults, true)
-
-	-- Safety net (in case the early check missed it)
-	if self.db.global.forceLocale then
-		GAME_LOCALE = self.db.global.forceLocale
-	end
-
 	AceConfig:RegisterOptionsTable("Camera", options)
 	self.optionsFrame = AceConfigDialog:AddToBlizOptions("Camera", L["Camera"])
 
-	self:RegisterChatCommand("camera", "ChatCommand")
-	self:RegisterChatCommand("cam", "ChatCommand")
+	self:RegisterChatCommand("camera", "OpenOptions")
+	self:RegisterChatCommand("cam", "OpenOptions")
 end
 
 function Camera:OnEnable()
@@ -280,34 +264,6 @@ end
 
 function Camera:OnDisable()
 	self:RestoreDefaults()
-end
-
-function Camera:ChatCommand(input)
-	input = (input or ""):trim():lower()
-	local cmd, arg = input:match("^(%S*)%s*(.-)$")
-
-	if cmd == "locale" then
-		if arg == "" or arg == "status" then
-			if self.db.global.forceLocale then
-				self:Print("Forced locale: |cffffff00" .. self.db.global.forceLocale .. "|r")
-			else
-				self:Print("Using real client locale: |cffffff00" .. GetLocale() .. "|r")
-			end
-		elseif arg == "reset" or arg == "clear" or arg == "off" then
-			self.db.global.forceLocale = nil
-			self:Print("Forced locale cleared. Reloading UI...")
-			C_Timer.After(0.3, ReloadUI)
-		else
-			-- Accept any locale code (jaJP, deDE, zhCN, frFR, etc.)
-			self.db.global.forceLocale = arg
-			self:Print("Forced locale set to |cffffff00" .. arg .. "|r. Reloading UI...")
-			C_Timer.After(0.3, ReloadUI)
-		end
-		return
-	end
-
-	-- Default behaviour → open the config window
-	self:OpenOptions()
 end
 
 function Camera:OpenOptions()
