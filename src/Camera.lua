@@ -233,7 +233,7 @@ local options = {
 			name = L["Apply Now"],
 			desc = L["Apply the current values immediately"],
 			order = 8,
-			func = "ApplySpeeds",
+			func = "ApplySettings",
 			disabled = "IsApplyDisabled",
 		},
 		defaults = {
@@ -257,8 +257,8 @@ function Camera:OnInitialize()
 end
 
 function Camera:OnEnable()
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ApplySpeeds")
-	self:ApplySpeeds()
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ApplySettings")
+	self:ApplySettings()
 end
 
 function Camera:OnDisable()
@@ -303,7 +303,7 @@ end
 
 function Camera:SetEnabled(info, value)
 	self.db.realm.enabled = value
-	self:ApplySpeeds()
+	self:ApplySettings()
 
 	if value then
 		self:Notify(L["Camera addon enabled – custom values applied"])
@@ -344,7 +344,7 @@ function Camera:SetZoomSpeed(info, value)
 	self:MarkDirty()
 end
 
-function Camera:ApplySpeeds()
+function Camera:ApplySettings()
 	if self.db.realm.enabled then
 		SetCVar("cameraYawMoveSpeed", self.db.realm.yawSpeed)
 		SetCVar("cameraPitchMoveSpeed", self.db.realm.pitchSpeed)
@@ -393,7 +393,7 @@ function Camera:ResetToDefaults()
 	self.db.realm.cameraPitchSmoothSpeed = tonumber(GetCVarDefault("cameraPitchSmoothSpeed")) or 45
 
 	self.db.realm.enabled                = true
-	self:ApplySpeeds()
+	self:ApplySettings()
 
 	-- Only re-open the standalone window if the user already has it open
 	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["Camera"] then
