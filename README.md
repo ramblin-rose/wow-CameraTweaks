@@ -29,22 +29,11 @@ Adjust mouse look speeds, zoom distance, smoothing, and several camera physics o
 
 ---
 
-## Slash Commands
-
-| Command             | Description                          |
-| ------------------- | ------------------------------------ |
-| `/cam` or `/camera` | Open the configuration window        |
-| `/cam locale`       | Show current forced locale           |
-| `/cam locale jaJP`  | Force Japanese (or any other locale) |
-| `/cam locale reset` | Return to the client’s real locale   |
-
----
-
 ## Configuration
 
 Open the options with `/cam` or through the standard AddOns menu (Interface → AddOns → Camera).
 
-All settings are saved per character profile via AceDB.
+All settings are saved at the realm level, affecting all toons.
 
 ---
 
@@ -62,9 +51,6 @@ The addon includes translations for:
 - Korean (koKR)
 - Simplified Chinese (zhCN)
 - Traditional Chinese (zhTW)
-- Japanese (jaJP)
-
-You can force any of these languages with the `/cam locale` command (useful for testing or if you prefer a different language than your client).
 
 ---
 
@@ -87,10 +73,7 @@ You can force any of these languages with the `/cam locale` command (useful for 
 
 ## Installation
 
-1. Download the latest release
-2. Extract the `Camera` folder into your `World of Warcraft/_classic_/Interface/AddOns/` or `_retail_/Interface/AddOns/` directory
-3. Restart the game or type `/reload`
-4. Type `/cam` to open the options
+1. Download the latest release from CurseForge.
 
 ---
 

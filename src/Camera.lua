@@ -1,4 +1,3 @@
-local addonName, addon = ...
 local AceAddon = LibStub("AceAddon-3.0")
 local AceDB = LibStub("AceDB-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
@@ -11,7 +10,7 @@ local Camera = AceAddon:NewAddon("Camera", "AceConsole-3.0", "AceEvent-3.0")
 Camera.dirty = false
 
 function Camera:IsApplyDisabled()
-	return (not self.db.profile.enabled) or (not self.dirty)
+	return (not self.db.realm.enabled) or (not self.dirty)
 end
 
 function Camera:MarkDirty()
@@ -19,11 +18,11 @@ function Camera:MarkDirty()
 end
 
 function Camera:IsDisabled()
-	return not self.db.profile.enabled
+	return not self.db.realm.enabled
 end
 
 local defaults = {
-	profile = {
+	realm = {
 		yawSpeed = 30,
 		pitchSpeed = 30,
 		zoomSpeed = 20,
@@ -104,9 +103,9 @@ local options = {
 			max = 4.0,
 			step = 0.1,
 			order = 4,
-			get = function() return Camera.db.profile.maxZoomFactor end,
+			get = function() return Camera.db.realm.maxZoomFactor end,
 			set = function(_, value)
-				Camera.db.profile.maxZoomFactor = value
+				Camera.db.realm.maxZoomFactor = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -141,9 +140,9 @@ local options = {
 			max = 270,
 			step = 1,
 			order = 5,
-			get = function() return Camera.db.profile.cameraYawSmoothSpeed end,
+			get = function() return Camera.db.realm.cameraYawSmoothSpeed end,
 			set = function(_, value)
-				Camera.db.profile.cameraYawSmoothSpeed = value
+				Camera.db.realm.cameraYawSmoothSpeed = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -156,9 +155,9 @@ local options = {
 			max = 90,
 			step = 1,
 			order = 5.2,
-			get = function() return Camera.db.profile.cameraPitchSmoothSpeed end,
+			get = function() return Camera.db.realm.cameraPitchSmoothSpeed end,
 			set = function(_, value)
-				Camera.db.profile.cameraPitchSmoothSpeed = value
+				Camera.db.realm.cameraPitchSmoothSpeed = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -177,9 +176,9 @@ local options = {
 			name = L["Camera Bobbing"] or "Camera Bobbing",
 			desc = L["Enable head-bob while moving."] or "Enable head-bob while moving.",
 			order = 6,
-			get = function() return Camera.db.profile.cameraBobbing end,
+			get = function() return Camera.db.realm.cameraBobbing end,
 			set = function(_, value)
-				Camera.db.profile.cameraBobbing = value
+				Camera.db.realm.cameraBobbing = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -189,9 +188,9 @@ local options = {
 			name = L["Terrain Tilt"] or "Terrain Tilt",
 			desc = L["Camera tilts to follow the terrain."] or "Camera tilts to follow the terrain.",
 			order = 6.1,
-			get = function() return Camera.db.profile.cameraTerrainTilt end,
+			get = function() return Camera.db.realm.cameraTerrainTilt end,
 			set = function(_, value)
-				Camera.db.profile.cameraTerrainTilt = value
+				Camera.db.realm.cameraTerrainTilt = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -201,9 +200,9 @@ local options = {
 			name = L["Camera Pivot"] or "Camera Pivot",
 			desc = L["Camera stops when it hits the ground."] or "Camera stops when it hits the ground.",
 			order = 6.2,
-			get = function() return Camera.db.profile.cameraPivot end,
+			get = function() return Camera.db.realm.cameraPivot end,
 			set = function(_, value)
-				Camera.db.profile.cameraPivot = value
+				Camera.db.realm.cameraPivot = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -213,9 +212,9 @@ local options = {
 			name = L["Water Collision"] or "Water Collision",
 			desc = L["Camera collides with the water surface."] or "Camera collides with the water surface.",
 			order = 6.3,
-			get = function() return Camera.db.profile.cameraWaterCollision end,
+			get = function() return Camera.db.realm.cameraWaterCollision end,
 			set = function(_, value)
-				Camera.db.profile.cameraWaterCollision = value
+				Camera.db.realm.cameraWaterCollision = value
 				Camera:MarkDirty()
 			end,
 			disabled = "IsDisabled",
@@ -299,11 +298,11 @@ function Camera:OpenOptions()
 end
 
 function Camera:GetEnabled(info)
-	return self.db.profile.enabled
+	return self.db.realm.enabled
 end
 
 function Camera:SetEnabled(info, value)
-	self.db.profile.enabled = value
+	self.db.realm.enabled = value
 	self:ApplySpeeds()
 
 	if value then
@@ -319,46 +318,46 @@ function Camera:Notify(msg)
 end
 
 function Camera:GetYawSpeed(info)
-	return self.db.profile.yawSpeed
+	return self.db.realm.yawSpeed
 end
 
 function Camera:SetYawSpeed(info, value)
-	self.db.profile.yawSpeed = value
+	self.db.realm.yawSpeed = value
 	self:MarkDirty()
 end
 
 function Camera:GetPitchSpeed(info)
-	return self.db.profile.pitchSpeed
+	return self.db.realm.pitchSpeed
 end
 
 function Camera:SetPitchSpeed(info, value)
-	self.db.profile.pitchSpeed = value
+	self.db.realm.pitchSpeed = value
 	self:MarkDirty()
 end
 
 function Camera:GetZoomSpeed(info)
-	return self.db.profile.zoomSpeed
+	return self.db.realm.zoomSpeed
 end
 
 function Camera:SetZoomSpeed(info, value)
-	self.db.profile.zoomSpeed = value
+	self.db.realm.zoomSpeed = value
 	self:MarkDirty()
 end
 
 function Camera:ApplySpeeds()
-	if self.db.profile.enabled then
-		SetCVar("cameraYawMoveSpeed", self.db.profile.yawSpeed)
-		SetCVar("cameraPitchMoveSpeed", self.db.profile.pitchSpeed)
-		SetCVar("cameraDistanceMaxZoomFactor", self.db.profile.maxZoomFactor)
-		SetCVar("cameraZoomSpeed", self.db.profile.zoomSpeed)
+	if self.db.realm.enabled then
+		SetCVar("cameraYawMoveSpeed", self.db.realm.yawSpeed)
+		SetCVar("cameraPitchMoveSpeed", self.db.realm.pitchSpeed)
+		SetCVar("cameraDistanceMaxZoomFactor", self.db.realm.maxZoomFactor)
+		SetCVar("cameraZoomSpeed", self.db.realm.zoomSpeed)
 
 		-- New options
-		SetCVar("cameraBobbing", self.db.profile.cameraBobbing and 1 or 0)
-		SetCVar("cameraTerrainTilt", self.db.profile.cameraTerrainTilt and 1 or 0)
-		SetCVar("cameraPivot", self.db.profile.cameraPivot and 1 or 0)
-		SetCVar("cameraWaterCollision", self.db.profile.cameraWaterCollision and 1 or 0)
-		SetCVar("cameraYawSmoothSpeed", self.db.profile.cameraYawSmoothSpeed)
-		SetCVar("cameraPitchSmoothSpeed", self.db.profile.cameraPitchSmoothSpeed)
+		SetCVar("cameraBobbing", self.db.realm.cameraBobbing and 1 or 0)
+		SetCVar("cameraTerrainTilt", self.db.realm.cameraTerrainTilt and 1 or 0)
+		SetCVar("cameraPivot", self.db.realm.cameraPivot and 1 or 0)
+		SetCVar("cameraWaterCollision", self.db.realm.cameraWaterCollision and 1 or 0)
+		SetCVar("cameraYawSmoothSpeed", self.db.realm.cameraYawSmoothSpeed)
+		SetCVar("cameraPitchSmoothSpeed", self.db.realm.cameraPitchSmoothSpeed)
 	else
 		self:RestoreDefaults()
 	end
@@ -381,19 +380,19 @@ function Camera:RestoreDefaults()
 end
 
 function Camera:ResetToDefaults()
-	self.db.profile.yawSpeed               = tonumber(GetCVarDefault("cameraYawMoveSpeed")) or 180
-	self.db.profile.pitchSpeed             = tonumber(GetCVarDefault("cameraPitchMoveSpeed")) or 90
-	self.db.profile.maxZoomFactor          = tonumber(GetCVarDefault("cameraDistanceMaxZoomFactor")) or 1.9
-	self.db.profile.zoomSpeed              = tonumber(GetCVarDefault("cameraZoomSpeed")) or 20
+	self.db.realm.yawSpeed               = tonumber(GetCVarDefault("cameraYawMoveSpeed")) or 180
+	self.db.realm.pitchSpeed             = tonumber(GetCVarDefault("cameraPitchMoveSpeed")) or 90
+	self.db.realm.maxZoomFactor          = tonumber(GetCVarDefault("cameraDistanceMaxZoomFactor")) or 1.9
+	self.db.realm.zoomSpeed              = tonumber(GetCVarDefault("cameraZoomSpeed")) or 20
 
-	self.db.profile.cameraBobbing          = (tonumber(GetCVarDefault("cameraBobbing")) or 0) == 1
-	self.db.profile.cameraTerrainTilt      = (tonumber(GetCVarDefault("cameraTerrainTilt")) or 1) == 1
-	self.db.profile.cameraPivot            = (tonumber(GetCVarDefault("cameraPivot")) or 1) == 1
-	self.db.profile.cameraWaterCollision   = (tonumber(GetCVarDefault("cameraWaterCollision")) or 1) == 1
-	self.db.profile.cameraYawSmoothSpeed   = tonumber(GetCVarDefault("cameraYawSmoothSpeed")) or 180
-	self.db.profile.cameraPitchSmoothSpeed = tonumber(GetCVarDefault("cameraPitchSmoothSpeed")) or 45
+	self.db.realm.cameraBobbing          = (tonumber(GetCVarDefault("cameraBobbing")) or 0) == 1
+	self.db.realm.cameraTerrainTilt      = (tonumber(GetCVarDefault("cameraTerrainTilt")) or 1) == 1
+	self.db.realm.cameraPivot            = (tonumber(GetCVarDefault("cameraPivot")) or 1) == 1
+	self.db.realm.cameraWaterCollision   = (tonumber(GetCVarDefault("cameraWaterCollision")) or 1) == 1
+	self.db.realm.cameraYawSmoothSpeed   = tonumber(GetCVarDefault("cameraYawSmoothSpeed")) or 180
+	self.db.realm.cameraPitchSmoothSpeed = tonumber(GetCVarDefault("cameraPitchSmoothSpeed")) or 45
 
-	self.db.profile.enabled                = true
+	self.db.realm.enabled                = true
 	self:ApplySpeeds()
 
 	-- Only re-open the standalone window if the user already has it open
