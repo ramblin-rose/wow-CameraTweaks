@@ -276,55 +276,10 @@ function CameraTweaks:ChatCommand(input)
 	local command, arg = input:match("^(%S+)%s*(.*)$")
 	command = command and command:lower() or ""
 
-	-- locale is for verifying locale support. do not use this feature as a user and do not document it.
-	if command == "locale" then
-		self:SetLocale(arg)
+	if command == "stub" then
 	else
 		self:OpenOptions()
 	end
-end
-
-function CameraTweaks:SetLocale(locale)
-	locale = locale and locale:trim() or ""
-
-	local validLocales = {
-		enUS = true,
-		deDE = true,
-		frFR = true,
-		esES = true,
-		esMX = true,
-		ptBR = true,
-		itIT = true,
-		ruRU = true,
-		koKR = true,
-		zhCN = true,
-		zhTW = true,
-		jaJP = true,
-	}
-
-	-- Ensure the table exists
-	if type(CameraTweaksLocaleDB) ~= "table" then
-		CameraTweaksLocaleDB = {}
-	end
-
-	if locale == "" or locale == "reset" or locale == "default" then
-		CameraTweaksLocaleDB.locale = nil
-		self:Print("Locale reset to client default.")
-		self:Print("|cffffcc00Please fully exit the game once|r for the change to take effect.")
-		return
-	end
-
-	if not validLocales[locale] then
-		self:Print("Invalid locale. Valid options:")
-		self:Print("enUS, deDE, frFR, esES, esMX, ptBR, itIT, ruRU, koKR, zhCN, zhTW, jaJP")
-		self:Print("Example: /cam locale esMX")
-		self:Print("To reset: /cam locale reset")
-		return
-	end
-
-	CameraTweaksLocaleDB.locale = locale
-	self:Print(string.format("Locale set to |cff00ff00%s|r.", locale))
-	self:Print("|cffffcc00Please fully exit the game once|r for the change to take effect.")
 end
 
 function CameraTweaks:OpenOptions()

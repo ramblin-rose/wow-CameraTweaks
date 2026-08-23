@@ -2,7 +2,7 @@
 ## Author: RamblinRose
 ## Version: 1.0.0
 ## IconTexture: Interface\AddOns\CameraTweaks\Camera.png
-## SavedVariables: CameraTweaksDB, CameraTweaksLocaleDB
+## SavedVariables: CameraTweaksDB
 ## OptionalDeps: Ace3
 
 ## Title: Camera Tweaks
@@ -45,8 +45,6 @@
 ## Category-jaJP: ユーザーインターフェース
 
 embeds.xml
-
-EntryPoint.lua
 
 Locales\enUS.lua
 Locales\deDE.lua
