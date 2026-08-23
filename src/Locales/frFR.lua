@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Camera", "frFR")
+local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "frFR")
 
 if not L then return end
 
-L["Camera"] = "Caméra"
-L["Enable Camera"] = "Activer la caméra"
+L["Camera Tweaks"] = "Ajustements de Caméra"
+L["Enable Camera Tweaks"] = "Activer les Ajustements de Caméra"
 L["Apply the custom camera speeds"] = "Appliquer les vitesses de caméra personnalisées"
 L["Yaw Speed (Horizontal)"] = "Vitesse de lacet (Horizontale)"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] =
@@ -15,7 +15,8 @@ L["Apply the current values immediately"] = "Appliquer les valeurs actuelles imm
 L["Defaults"] = "Valeurs par défaut"
 L["Reset to standard Blizzard camera values"] = "Réinitialiser aux valeurs de caméra standard de Blizzard"
 L["Camera addon enabled – custom values applied"] = "Addon Caméra activé – valeurs personnalisées appliquées"
-L["Camera addon disabled – Blizzard defaults restored"] = "Addon Caméra désactivé – valeurs par défaut de Blizzard restaurées"
+L["Camera addon disabled – Blizzard defaults restored"] =
+"Addon Caméra désactivé – valeurs par défaut de Blizzard restaurées"
 L["Yaw Smooth Speed"] = "Vitesse de lissage du lacet"
 L["How quickly the camera smooths horizontally."] = "Vitesse à laquelle la caméra lisse horizontalement."
 L["Pitch Smooth Speed"] = "Vitesse de lissage de tangage"

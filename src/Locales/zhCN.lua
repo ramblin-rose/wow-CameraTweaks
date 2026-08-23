@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Camera", "zhCN")
+local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "zhCN")
 
 if not L then return end
 
-L["Camera"] = "镜头"
-L["Enable Camera"] = "启用镜头"
+L["Camera Tweaks"] = "相机调整"
+L["Enable Camera Tweaks"] = "启用相机调整"
 L["Apply the custom camera speeds"] = "应用自定义镜头速度"
 L["Yaw Speed (Horizontal)"] = "偏航速度（水平）"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = "数值越低，水平视角转动越慢。游戏默认值约为 90-180。"

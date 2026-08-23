@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Camera", "enUS", true)
+local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "enUS", true)
 
 if not L then return end
 
-L["Camera"] = "Camera"
-L["Enable Camera"] = "Enable Camera"
+L["Camera Tweaks"] = "Camera Tweaks"
+L["Enable Camera Tweaks"] = "Enable Camera Tweaks"
 L["Apply the custom camera speeds"] = true
 L["Yaw Speed (Horizontal)"] = true
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = true

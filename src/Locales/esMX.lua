@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Camera", "esMX")
+local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "esMX")
 
 if not L then return end
 
-L["Camera"] = "Cámara"
-L["Enable Camera"] = "Activar Cámara"
+L["Camera Tweaks"] = "Ajustes de Cámara"
+L["Enable Camera Tweaks"] = "Activar Ajustes de Cámara"
 L["Apply the custom camera speeds"] = "Aplicar las velocidades personalizadas de la cámara"
 L["Yaw Speed (Horizontal)"] = "Velocidad Horizontal (Yaw)"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] =
