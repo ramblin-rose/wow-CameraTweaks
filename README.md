@@ -1,7 +1,4 @@
-<p>
-  <img src="src/Camera.png" alt="Camera Icon" height="64" style="vertical-align: middle; margin-right: 12px;">
-  <span style="font-size: 28px; font-weight: bold;">Camera</span>
-</p>
+![Camera Icon](src/Camera.png)
 
 **Camera** is a lightweight World of Warcraft addon that gives you precise control over camera behavior through a clean options panel.
 
@@ -9,9 +6,16 @@ Adjust mouse look speeds, zoom distance, smoothing, and several camera physics o
 
 ---
 
+## Why?
+
+Turning the camera with the mouse would often end up disorienting me because the speed was far to fast, causing me to spiral out of control with left-right-repeat mouse movements.
+
+This addon was born of that irritation.
+
+---
+
 ## Features
 
-- Enable / Disable the addon with one click
 - **Yaw Speed** – Horizontal mouse look sensitivity
 - **Pitch Speed** – Vertical mouse look sensitivity
 - **Max Zoom Factor** – How far you can zoom out
@@ -24,16 +28,16 @@ Adjust mouse look speeds, zoom distance, smoothing, and several camera physics o
   - Water Collision
 - **Apply Now** button – Instantly apply changes
 - **Defaults** button – Reset to Blizzard’s standard values
+- Enable / Disable the addon with one click
 - Fully localized (see supported languages below)
-- Ability to force a specific language for the addon (including Japanese)
 
 ---
 
 ## Configuration
 
-Open the options with `/cam` or through the standard AddOns menu (Interface → AddOns → Camera).
+Open the options panel with the slash command `/cam` or through the standard AddOns menu (Interface → AddOns → Camera).
 
-All settings are saved at the realm level, affecting all toons.
+All options are saved at the realm level, affecting all toons (no per toon profile).
 
 ---
 
@@ -86,3 +90,9 @@ The addon includes translations for:
 ## Feedback & Issues
 
 If you find a bug or have a suggestion, please open an issue on the repository.
+
+---
+
+# License
+
+[MIT](https://github.com/ramblin-rose/wow-Camera/blob/master/LICENSE)
