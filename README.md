@@ -1,5 +1,5 @@
 <p>
-  <img src="INV_Misc_SelfieCamera_Red_Camera.png" alt="Camera Icon" height="64" style="vertical-align: middle; margin-right: 12px;">
+  <img src="src/Camera.png" alt="Camera Icon" height="64" style="vertical-align: middle; margin-right: 12px;">
   <span style="font-size: 28px; font-weight: bold;">Camera</span>
 </p>
 
