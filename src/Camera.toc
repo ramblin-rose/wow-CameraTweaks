@@ -1,7 +1,7 @@
 ## Interface: 11509, 20506, 50504, 120100
 ## Author: RamblinRose
 ## Version: 1.0.0
-## IconTexture: Interface\AddOns\Camera\INV_Misc_SelfieCamera_Red_Camera
+## IconTexture: Interface\AddOns\Camera\Camera.png
 ## SavedVariables: CameraDB
 ## OptionalDeps: Ace3
 

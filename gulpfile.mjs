@@ -10,7 +10,7 @@ const version = packageJson.version;
 const ADDON_NAME = "Camera";
 
 // Source glob – only the required extensions, recursive
-const SRC_GLOB = "src/**/*.{xml,lua,blp,toc}";
+const SRC_GLOB = "src/**/*.{xml,lua,png,toc}";
 
 /**
  * Resolve the live WoW Classic AddOns destination path.
@@ -29,7 +29,7 @@ function getLiveDest() {
 
 /**
  * Copy matching files from src/ → live WoW AddOns/Camera/
- * { encoding: false } is required so .blp (binary) files are not corrupted.
+ * { encoding: false } is required so .png (binary) files are not corrupted.
  */
 export function copy() {
   const dest = getLiveDest();
