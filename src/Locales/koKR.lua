@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Camera", "koKR")
+local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "koKR")
 
 if not L then return end
 
-L["Camera"] = "카메라"
-L["Enable Camera"] = "카메라 활성화"
+L["Camera Tweaks"] = "카메라 조정"
+L["Enable Camera Tweaks"] = "카메라 조정 사용"
 L["Apply the custom camera speeds"] = "사용자 지정 카메라 속도 적용"
 L["Yaw Speed (Horizontal)"] = "요 속도 (수평)"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = "낮을수록 수평 마우스 시야가 느려집니다. 기본값은 약 90-180입니다."

@@ -1,22 +1,22 @@
 ## Interface: 11509, 20506, 50504, 120100
 ## Author: RamblinRose
 ## Version: 1.0.0
-## IconTexture: Interface\AddOns\Camera\Camera.png
-## SavedVariables: CameraDB
+## IconTexture: Interface\AddOns\CameraTweaks\Camera.png
+## SavedVariables: CameraTweaksDB, CameraTweaksLocaleDB
 ## OptionalDeps: Ace3
 
-## Title: Camera
-## Title-deDE: Kamera
-## Title-frFR: Caméra
-## Title-esES: Cámara
-## Title-esMX: Cámara
-## Title-ptBR: Câmera
-## Title-itIT: Fotocamera
-## Title-ruRU: Камера
-## Title-koKR: 카메라
-## Title-zhCN: 相机
-## Title-zhTW: 相機
-## Title-jaJP: カメラ
+## Title: Camera Tweaks
+## Title-deDE: Kamera-Anpassungen
+## Title-frFR: Ajustements de Caméra
+## Title-esES: Ajustes de Cámara
+## Title-esMX: Ajustes de Cámara
+## Title-ptBR: Ajustes da Câmera
+## Title-itIT: Regolazioni Fotocamera
+## Title-ruRU: Настройки Камеры
+## Title-koKR: 카메라 조정
+## Title-zhCN: 相机调整
+## Title-zhTW: 相機調整
+## Title-jaJP: カメラ調整
 
 ## Notes: Adjusts Camera properties with an options panel
 ## Notes-deDE: Passt Kameraeigenschaften mit einem Optionsfenster an
@@ -46,6 +46,8 @@
 
 embeds.xml
 
+EntryPoint.lua
+
 Locales\enUS.lua
 Locales\deDE.lua
 Locales\frFR.lua
@@ -59,4 +61,4 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 Locales\jaJP.lua
 
-Camera.lua
+CameraTweaks.lua
