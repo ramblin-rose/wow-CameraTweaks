@@ -1,6 +1,6 @@
 ![Camera Icon](src/Camera.png)
 
-**Camera** is a lightweight World of Warcraft addon that gives you precise control over camera behavior through a clean options panel.
+**Camera Tweaks** is a lightweight World of Warcraft addon that gives you precise control over camera behavior through a clean options panel.
 
 Adjust mouse look speeds, zoom distance, smoothing, and several camera physics options that are normally hidden or difficult to change.
 
