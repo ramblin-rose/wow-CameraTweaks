@@ -6,76 +6,47 @@ Adjust mouse look speeds, zoom distance, smoothing, and several camera physics o
 
 ---
 
-## Why?
-
-Turning the camera with the mouse would often end up disorienting me because the speed was far to fast, causing me to spiral out of control with left-right-repeat mouse movements.
-
-This addon was born of that irritation.
-
----
-
 ## Features
 
-- **Yaw Speed** – Horizontal mouse look sensitivity
-- **Pitch Speed** – Vertical mouse look sensitivity
-- **Max Zoom Factor** – How far you can zoom out
-- **Zoom Speed** – Mouse wheel zoom speed
-- **Yaw & Pitch Smooth Speed** – Camera smoothing
-- Toggle options:
+- **Enable / Disable toggle**  
+  Turning the addon off immediately restores Blizzard defaults. Turning it back on reloads your saved settings.
+
+- **Fully adjustable camera parameters**
+  - Yaw Speed (horizontal mouse look)
+  - Pitch Speed (vertical mouse look)
+  - Maximum Zoom Factor
+  - Zoom Speed (mouse wheel)
+  - Yaw & Pitch Smooth Speed
   - Camera Bobbing
   - Terrain Tilt
   - Camera Pivot
   - Water Collision
-- **Apply Now** button – Instantly apply changes
-- **Defaults** button – Reset to Blizzard’s standard values
-- Enable / Disable the addon with one click
-- Fully localized (see supported languages below)
+
+- **Realm-wide settings**  
+  Your preferences are stored per realm, so every character on the same realm shares the same camera configuration.
+
+- **Clean slash commands**
+  - `/cam` or `/camera` – opens the options window
+
+- **Multi-version support**  
+  Works on Classic Era, Season of Discovery, Cataclysm Classic, Mists of Pandaria Classic, and Retail.
+
+- **Fully localized**  
+  Supports all major client languages:
+  - English (enUS)
+  - German (deDE)
+  - French (frFR)
+  - Spanish (esES / esMX)
+  - Portuguese (ptBR)
+  - Italian (itIT)
+  - Russian (ruRU)
+  - Korean (koKR)
+  - Simplified Chinese (zhCN)
+  - Traditional Chinese (zhTW)
 
 ---
 
-## Configuration
-
-Open the options panel with the slash command `/cam` or through the standard AddOns menu (Interface → AddOns → Camera).
-
-All options are saved at the realm level, affecting all toons (no per toon profile).
-
----
-
-## Supported Languages
-
-The addon includes translations for:
-
-- English (enUS)
-- German (deDE)
-- French (frFR)
-- Spanish (esES / esMX)
-- Portuguese (ptBR)
-- Italian (itIT)
-- Russian (ruRU)
-- Korean (koKR)
-- Simplified Chinese (zhCN)
-- Traditional Chinese (zhTW)
-
----
-
-## Supported Game Versions
-
-- Classic Era
-- Season of Discovery / Classic Fresh
-- Cataclysm Classic
-- Mists of Pandaria Classic
-- The War Within (Retail)
-- Midnight (and current Retail)
-
----
-
-## Dependencies
-
-- **Ace3** (OptionalDeps – will use embedded version if not already loaded)
-
----
-
-## Installation
+## Client Installation
 
 1. Download the latest release from CurseForge.
 

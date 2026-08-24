@@ -1,7 +1,7 @@
 {
-  "name": "camera",
-  "version": "1.0.0",
-  "description": "WoW addon that allows game camera options",
+  "name": "Camera Tweaks",
+  "version": "1.1.0",
+  "description": "WoW addon that adjusts game camera (pov) properties with an options panel",
   "keywords": [
     "WoW",
     "AddOn",

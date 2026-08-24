@@ -1,21 +1,16 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "enUS", true)
-
 if not L then return end
 
 L["Camera Tweaks"] = "Camera Tweaks"
 L["Enable Camera Tweaks"] = "Enable Camera Tweaks"
-L["Apply the custom camera speeds"] = true
-L["Yaw Speed (Horizontal)"] = true
-L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = true
-L["Pitch Speed (Vertical)"] = true
-L["Lower = slower vertical mouse look."] = true
-L["Apply Now"] = true
-L["Apply the current values immediately"] = true
-L["Defaults"] = "Defaults"
+L["Apply the custom camera speeds"] = "Apply the custom camera speeds"
+L["Yaw Speed (Horizontal)"] = "Yaw Speed (Horizontal)"
+L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = "Lower = slower horizontal mouse look. Default game value is ~90-180."
+L["Pitch Speed (Vertical)"] = "Pitch Speed (Vertical)"
+L["Lower = slower vertical mouse look."] = "Lower = slower vertical mouse look."
 L["Reset to standard Blizzard camera values"] = "Reset to standard Blizzard camera values"
 L["Zoom Speed"] = "Zoom Speed"
-L["How fast the mouse wheel zooms in and out. Default is usually 20."] =
-"How fast the mouse wheel zooms in and out. Default is usually 20."
+L["How fast the mouse wheel zooms in and out. Default is usually 20."] = "How fast the mouse wheel zooms in and out. Default is usually 20."
 L["Camera addon enabled – custom values applied"] = "Camera addon enabled – custom values applied"
 L["Camera addon disabled – Blizzard defaults restored"] = "Camera addon disabled – Blizzard defaults restored"
 L["Yaw Smooth Speed"] = "Yaw Smooth Speed"
@@ -30,3 +25,13 @@ L["Camera Pivot"] = "Camera Pivot"
 L["Camera stops when it hits the ground."] = "Camera stops when it hits the ground."
 L["Water Collision"] = "Water Collision"
 L["Camera collides with the water surface."] = "Camera collides with the water surface."
+L["Waiting for Changes"] = "Waiting for Changes"
+L["Changes Are Live"] = "Changes Are Live"
+L["Defaults"] = "Defaults"
+L["Set all values to Blizzard defaults (live)"] = "Set all values to Blizzard defaults (live)"
+L["Reset"] = "Reset"
+L["Restore the values that were present when the dialog was opened"] = "Restore the values that were present when the dialog was opened"
+L["Save"] = "Save"
+L["Save the current values and close"] = "Save the current values and close"
+L["Cancel"] = "Cancel"
+L["Discard changes and close"] = "Discard changes and close"
