@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "zhTW")
+local L = LibStub("AceLocale-3.0"):NewLocale("Perspectives", "zhTW")
 
 if not L then return end
 
-L["Camera Tweaks"] = "相機調整"
-L["Enable Camera Tweaks"] = "啟用相機調整"
+L["Perspectives"] = "視角"
+L["Enable Perspectives"] = "啟用視角"
 L["Apply the custom camera speeds"] = "套用自訂鏡頭速度"
 L["Yaw Speed (Horizontal)"] = "偏航速度（水平）"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = "數值越低，水平視角轉動越慢。遊戲預設值約為 90-180。"

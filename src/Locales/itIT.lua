@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "itIT")
+local L = LibStub("AceLocale-3.0"):NewLocale("Perspectives", "itIT")
 
 if not L then return end
 
-L["Camera Tweaks"] = "Regolazioni Fotocamera"
-L["Enable Camera Tweaks"] = "Abilita Regolazioni Fotocamera"
+L["Perspectives"] = "Prospettive"
+L["Enable Perspectives"] = "Abilita Prospettive"
 L["Apply the custom camera speeds"] = "Applica le velocità personalizzate della fotocamera"
 L["Yaw Speed (Horizontal)"] = "Velocità Orizzontale (Yaw)"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = "Valori più bassi = movimento orizzontale del mouse più lento. Valore predefinito del gioco ~90-180."

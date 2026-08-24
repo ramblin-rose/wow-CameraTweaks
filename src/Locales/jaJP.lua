@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("CameraTweaks", "jaJP")
+local L = LibStub("AceLocale-3.0"):NewLocale("Perspectives", "jaJP")
 
 if not L then return end
 
-L["Camera Tweaks"] = "カメラ調整"
-L["Enable Camera Tweaks"] = "カメラ調整を有効にする"
+L["Perspectives"] = "パースペクティブ"
+L["Enable Perspectives"] = "パースペクティブを有効にする"
 L["Apply the custom camera speeds"] = "カスタムカメラスピードを適用する"
 L["Yaw Speed (Horizontal)"] = "水平速度（ヨー）"
 L["Lower = slower horizontal mouse look. Default game value is ~90-180."] = "値が小さいほど水平方向のマウスルックが遅くなります。デフォルトは約90〜180です。"
