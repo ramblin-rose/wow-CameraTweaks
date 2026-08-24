@@ -6,20 +6,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("CameraTweaks")
 
 local CameraTweaks = AceAddon:NewAddon("CameraTweaks", "AceConsole-3.0", "AceEvent-3.0")
 
--- track config value changes
-CameraTweaks.dirty = false
-
-function CameraTweaks:IsApplyDisabled()
-	return (not self.db.realm.enabled) or (not self.dirty)
-end
-
-function CameraTweaks:MarkDirty()
-	self.dirty = true
-end
-
-function CameraTweaks:IsDisabled()
-	return not self.db.realm.enabled
-end
+CameraTweaks.working = {}
+CameraTweaks.initialState = {}
 
 local defaults = {
 	realm = {
@@ -29,7 +17,6 @@ local defaults = {
 		maxZoomFactor = 2.6,
 		enabled = true,
 
-		-- New universal options
 		cameraBobbing = false,
 		cameraTerrainTilt = true,
 		cameraPivot = true,
@@ -44,14 +31,36 @@ local options = {
 	handler = CameraTweaks,
 	type = "group",
 	args = {
-		-- Row 1: Enable alone
+		-- Status text
+		statusText = {
+			type = "description",
+			name = function()
+				local text = CameraTweaks.statusText or L["Waiting for Changes"]
+				if text == L["Changes Are Live"] then
+					return "|cff00ff00" .. text .. "|r"
+				else
+					return "|cffffff00" .. text .. "|r"
+				end
+			end,
+			order = 0,
+			width = "full",
+			fontSize = "medium",
+		},
+
+		spacer0 = {
+			type = "description",
+			name = " ",
+			order = 0.5,
+			width = "full",
+		},
+
 		enabled = {
 			type = "toggle",
 			name = L["Enable Camera Tweaks"],
 			desc = L["Apply the custom camera speeds"],
 			order = 1,
-			get = "GetEnabled",
-			set = "SetEnabled",
+			get = "GetWorking",
+			set = "SetWorking",
 		},
 
 		spacer1 = {
@@ -61,7 +70,6 @@ local options = {
 			width = "full",
 		},
 
-		-- Row 2: Yaw + Pitch
 		yawSpeed = {
 			type = "range",
 			name = L["Yaw Speed (Horizontal)"],
@@ -70,9 +78,9 @@ local options = {
 			max = 180,
 			step = 1,
 			order = 2,
-			get = "GetYawSpeed",
-			set = "SetYawSpeed",
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 		pitchSpeed = {
 			type = "range",
@@ -82,9 +90,9 @@ local options = {
 			max = 180,
 			step = 1,
 			order = 3,
-			get = "GetPitchSpeed",
-			set = "SetPitchSpeed",
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 
 		spacer2 = {
@@ -94,7 +102,6 @@ local options = {
 			width = "full",
 		},
 
-		-- Row 3: Max Zoom + Zoom Speed
 		maxZoomFactor = {
 			type = "range",
 			name = "Max Zoom Factor",
@@ -103,12 +110,9 @@ local options = {
 			max = 4.0,
 			step = 0.1,
 			order = 4,
-			get = function() return CameraTweaks.db.realm.maxZoomFactor end,
-			set = function(_, value)
-				CameraTweaks.db.realm.maxZoomFactor = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 		zoomSpeed = {
 			type = "range",
@@ -119,9 +123,9 @@ local options = {
 			max = 50,
 			step = 1,
 			order = 4.2,
-			get = "GetZoomSpeed",
-			set = "SetZoomSpeed",
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 
 		spacer3 = {
@@ -131,7 +135,6 @@ local options = {
 			width = "full",
 		},
 
-		-- Row 4: Smooth speeds
 		cameraYawSmoothSpeed = {
 			type = "range",
 			name = L["Yaw Smooth Speed"] or "Yaw Smooth Speed",
@@ -140,12 +143,9 @@ local options = {
 			max = 270,
 			step = 1,
 			order = 5,
-			get = function() return CameraTweaks.db.realm.cameraYawSmoothSpeed end,
-			set = function(_, value)
-				CameraTweaks.db.realm.cameraYawSmoothSpeed = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 		cameraPitchSmoothSpeed = {
 			type = "range",
@@ -155,12 +155,9 @@ local options = {
 			max = 90,
 			step = 1,
 			order = 5.2,
-			get = function() return CameraTweaks.db.realm.cameraPitchSmoothSpeed end,
-			set = function(_, value)
-				CameraTweaks.db.realm.cameraPitchSmoothSpeed = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 
 		spacer4 = {
@@ -170,57 +167,43 @@ local options = {
 			width = "full",
 		},
 
-		-- Row 5: Toggles
 		cameraBobbing = {
 			type = "toggle",
 			name = L["Camera Bobbing"] or "Camera Bobbing",
 			desc = L["Enable head-bob while moving."] or "Enable head-bob while moving.",
 			order = 6,
-			get = function() return CameraTweaks.db.realm.cameraBobbing end,
-			set = function(_, value)
-				CameraTweaks.db.realm.cameraBobbing = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 		cameraTerrainTilt = {
 			type = "toggle",
 			name = L["Terrain Tilt"] or "Terrain Tilt",
 			desc = L["Camera tilts to follow the terrain."] or "Camera tilts to follow the terrain.",
 			order = 6.1,
-			get = function() return CameraTweaks.db.realm.cameraTerrainTilt end,
-			set = function(_, value)
-				CameraTweaks.db.realm.cameraTerrainTilt = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 		cameraPivot = {
 			type = "toggle",
 			name = L["Camera Pivot"] or "Camera Pivot",
 			desc = L["Camera stops when it hits the ground."] or "Camera stops when it hits the ground.",
 			order = 6.2,
-			get = function() return CameraTweaks.db.realm.cameraPivot end,
-			set = function(_, value)
-				CameraTweaks.db.realm.cameraPivot = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 		cameraWaterCollision = {
 			type = "toggle",
 			name = L["Water Collision"] or "Water Collision",
 			desc = L["Camera collides with the water surface."] or "Camera collides with the water surface.",
 			order = 6.3,
-			get = function() return CameraTweaks.db.realm.cameraWaterCollision end,
-			set = function(_, value)
-				CameraTweaks.db.realm.cameraWaterCollision = value
-				CameraTweaks:MarkDirty()
-			end,
-			disabled = "IsDisabled",
+			get = "GetWorking",
+			set = "SetWorking",
+			disabled = "IsWorkingDisabled",
 		},
 
-		-- Extra vertical space before the buttons
 		row_spacer = {
 			type = "description",
 			name = "\n\n",
@@ -228,21 +211,37 @@ local options = {
 			width = "full",
 		},
 
-		apply = {
-			type = "execute",
-			name = L["Apply Now"],
-			desc = L["Apply the current values immediately"],
-			order = 8,
-			func = "ApplySettings",
-			disabled = "IsApplyDisabled",
-		},
+		-- Buttons
 		defaults = {
 			type = "execute",
 			name = L["Defaults"] or "Defaults",
-			desc = L["Reset to standard Blizzard camera values"] or "Reset to standard Blizzard camera values",
+			desc = L["Set all values to Blizzard defaults (live)"],
+			order = 8,
+			func = "Defaults",
+			disabled = "IsWorkingDisabled",
+		},
+		reset = {
+			type = "execute",
+			name = L["Reset"],
+			desc = L["Restore the values that were present when the dialog was opened"],
 			order = 9,
-			func = "ResetToDefaults",
-			disabled = "IsDisabled",
+			func = "Reset",
+			disabled = "IsWorkingDisabled",
+		},
+		save = {
+			type = "execute",
+			name = L["Save"],
+			desc = L["Save the current values and close"],
+			order = 10,
+			func = "Save",
+			disabled = "IsSaveDisabled",
+		},
+		cancel = {
+			type = "execute",
+			name = L["Cancel"],
+			desc = L["Discard changes and close"],
+			order = 11,
+			func = "Cancel",
 		},
 	},
 }
@@ -266,34 +265,41 @@ function CameraTweaks:OnDisable()
 end
 
 function CameraTweaks:ChatCommand(input)
-	input = input and input:trim() or ""
-
-	if input == "" then
-		self:OpenOptions()
-		return
-	end
-
-	local command, arg = input:match("^(%S+)%s*(.*)$")
-	command = command and command:lower() or ""
-
-	if command == "stub" then
-	else
-		self:OpenOptions()
-	end
+	self:OpenOptions()
 end
 
 function CameraTweaks:OpenOptions()
-	-- Close the Blizzard Options/Settings panel if it is open
+	self.initialState = {
+		enabled                = self.db.realm.enabled,
+		yawSpeed               = tonumber(GetCVar("cameraYawMoveSpeed")) or 180,
+		pitchSpeed             = tonumber(GetCVar("cameraPitchMoveSpeed")) or 90,
+		maxZoomFactor          = tonumber(GetCVar("cameraDistanceMaxZoomFactor")) or 1.9,
+		zoomSpeed              = tonumber(GetCVar("cameraZoomSpeed")) or 20,
+		cameraBobbing          = (tonumber(GetCVar("cameraBobbing")) or 0) == 1,
+		cameraTerrainTilt      = (tonumber(GetCVar("cameraTerrainTilt")) or 1) == 1,
+		cameraPivot            = (tonumber(GetCVar("cameraPivot")) or 1) == 1,
+		cameraWaterCollision   = (tonumber(GetCVar("cameraWaterCollision")) or 1) == 1,
+		cameraYawSmoothSpeed   = tonumber(GetCVar("cameraYawSmoothSpeed")) or 180,
+		cameraPitchSmoothSpeed = tonumber(GetCVar("cameraPitchSmoothSpeed")) or 45,
+	}
+
+	self.working = {}
+	for k, v in pairs(self.initialState) do
+		self.working[k] = v
+	end
+
+	self.statusText = L["Waiting for Changes"]
+
 	if SettingsPanel and SettingsPanel:IsShown() then
 		HideUIPanel(SettingsPanel)
 	elseif InterfaceOptionsFrame and InterfaceOptionsFrame:IsShown() then
 		HideUIPanel(InterfaceOptionsFrame)
 	end
-	-- defer showing the Camera dialog in case the SettingsPanel was open
+
 	C_Timer.After(0, function()
 		local status  = AceConfigDialog:GetStatusTable("CameraTweaks")
-		status.width  = 370
-		status.height = 420
+		status.width  = 366
+		status.height = 460
 
 		local window  = AceConfigDialog.OpenFrames["CameraTweaks"]
 		if not window or window.type ~= "Window" then
@@ -301,8 +307,8 @@ function CameraTweaks:OpenOptions()
 			window = AceGUI:Create("Window")
 			window:SetTitle(L["Camera Tweaks"])
 			window:SetLayout("Fill")
-			window:SetWidth(520)
-			window:SetHeight(420)
+			window:SetWidth(366)
+			window:SetHeight(460)
 			window:SetCallback("OnClose", function(widget)
 				AceGUI:Release(widget)
 				AceConfigDialog.OpenFrames["CameraTweaks"] = nil
@@ -314,51 +320,147 @@ function CameraTweaks:OpenOptions()
 	end)
 end
 
-function CameraTweaks:GetEnabled(info)
-	return self.db.realm.enabled
+function CameraTweaks:GetWorking(info)
+	return self.working[info[#info]]
 end
 
-function CameraTweaks:SetEnabled(info, value)
-	self.db.realm.enabled = value
-	self:ApplySettings()
+function CameraTweaks:SetWorking(info, value)
+	local key = info[#info]
 
-	if value then
-		self:Notify(L["Camera addon enabled – custom values applied"])
+	if key == "enabled" then
+		self.working.enabled = value
+
+		if value then
+			-- Enabling → load database values
+			for k, v in pairs(self.db.realm) do
+				if k ~= "enabled" then
+					self.working[k] = v
+				end
+			end
+			for k, v in pairs(self.working) do
+				self:ApplySingle(k, v)
+			end
+		else
+			-- Disabling → apply Blizzard defaults but keep enabled = false
+			self:ApplyBlizzardDefaults(false)
+		end
 	else
-		self:Notify(L["Camera addon disabled – Blizzard defaults restored"])
+		self.working[key] = value
+		self:ApplySingle(key, value)
+	end
+
+	self:UpdateDialogState()
+end
+
+function CameraTweaks:IsWorkingDisabled()
+	return not self.working.enabled
+end
+
+function CameraTweaks:IsSaveDisabled()
+	-- Disabled when addon is off OR when there are no changes
+	return (not self.working.enabled) or (not self:HasChanges())
+end
+
+function CameraTweaks:HasChanges()
+	for k, v in pairs(self.initialState) do
+		if self.working[k] ~= v then
+			return true
+		end
+	end
+	return false
+end
+
+function CameraTweaks:UpdateDialogState()
+	if self:HasChanges() then
+		self.statusText = L["Changes Are Live"]
+	else
+		self.statusText = L["Waiting for Changes"]
+	end
+
+	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["CameraTweaks"] then
+		AceConfigDialog:Open("CameraTweaks")
 	end
 end
 
-function CameraTweaks:Notify(msg)
-	UIErrorsFrame:AddMessage(msg, 1.0, 1.0, 0.0)
-	self:Print(msg)
+function CameraTweaks:ApplySingle(key, value)
+	if key == "enabled" then return end
+
+	if key == "yawSpeed" then
+		SetCVar("cameraYawMoveSpeed", value)
+	elseif key == "pitchSpeed" then
+		SetCVar("cameraPitchMoveSpeed", value)
+	elseif key == "maxZoomFactor" then
+		SetCVar("cameraDistanceMaxZoomFactor", value)
+	elseif key == "zoomSpeed" then
+		SetCVar("cameraZoomSpeed", value)
+	elseif key == "cameraBobbing" then
+		SetCVar("cameraBobbing", value and 1 or 0)
+	elseif key == "cameraTerrainTilt" then
+		SetCVar("cameraTerrainTilt", value and 1 or 0)
+	elseif key == "cameraPivot" then
+		SetCVar("cameraPivot", value and 1 or 0)
+	elseif key == "cameraWaterCollision" then
+		SetCVar("cameraWaterCollision", value and 1 or 0)
+	elseif key == "cameraYawSmoothSpeed" then
+		SetCVar("cameraYawSmoothSpeed", value)
+	elseif key == "cameraPitchSmoothSpeed" then
+		SetCVar("cameraPitchSmoothSpeed", value)
+	end
 end
 
-function CameraTweaks:GetYawSpeed(info)
-	return self.db.realm.yawSpeed
+function CameraTweaks:ApplyBlizzardDefaults(keepEnabled)
+	self.working.yawSpeed               = tonumber(GetCVarDefault("cameraYawMoveSpeed")) or 180
+	self.working.pitchSpeed             = tonumber(GetCVarDefault("cameraPitchMoveSpeed")) or 90
+	self.working.maxZoomFactor          = tonumber(GetCVarDefault("cameraDistanceMaxZoomFactor")) or 1.9
+	self.working.zoomSpeed              = tonumber(GetCVarDefault("cameraZoomSpeed")) or 20
+	self.working.cameraBobbing          = (tonumber(GetCVarDefault("cameraBobbing")) or 0) == 1
+	self.working.cameraTerrainTilt      = (tonumber(GetCVarDefault("cameraTerrainTilt")) or 1) == 1
+	self.working.cameraPivot            = (tonumber(GetCVarDefault("cameraPivot")) or 1) == 1
+	self.working.cameraWaterCollision   = (tonumber(GetCVarDefault("cameraWaterCollision")) or 1) == 1
+	self.working.cameraYawSmoothSpeed   = tonumber(GetCVarDefault("cameraYawSmoothSpeed")) or 180
+	self.working.cameraPitchSmoothSpeed = tonumber(GetCVarDefault("cameraPitchSmoothSpeed")) or 45
+
+	if keepEnabled ~= false then
+		self.working.enabled = true
+	end
+
+	for k, v in pairs(self.working) do
+		self:ApplySingle(k, v)
+	end
 end
 
-function CameraTweaks:SetYawSpeed(info, value)
-	self.db.realm.yawSpeed = value
-	self:MarkDirty()
+function CameraTweaks:Defaults()
+	self:ApplyBlizzardDefaults(true)
+	self:UpdateDialogState()
 end
 
-function CameraTweaks:GetPitchSpeed(info)
-	return self.db.realm.pitchSpeed
+function CameraTweaks:Reset()
+	for k, v in pairs(self.initialState) do
+		self.working[k] = v
+		self:ApplySingle(k, v)
+	end
+	self:UpdateDialogState()
 end
 
-function CameraTweaks:SetPitchSpeed(info, value)
-	self.db.realm.pitchSpeed = value
-	self:MarkDirty()
+function CameraTweaks:Save()
+	for k, v in pairs(self.working) do
+		self.db.realm[k] = v
+	end
+	self:ApplySettings()
+	self:CloseOptions()
 end
 
-function CameraTweaks:GetZoomSpeed(info)
-	return self.db.realm.zoomSpeed
+function CameraTweaks:Cancel()
+	for k, v in pairs(self.initialState) do
+		self:ApplySingle(k, v)
+	end
+	self:CloseOptions()
 end
 
-function CameraTweaks:SetZoomSpeed(info, value)
-	self.db.realm.zoomSpeed = value
-	self:MarkDirty()
+function CameraTweaks:CloseOptions()
+	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["CameraTweaks"] then
+		AceConfigDialog:Close("CameraTweaks")
+	end
 end
 
 function CameraTweaks:ApplySettings()
@@ -367,8 +469,6 @@ function CameraTweaks:ApplySettings()
 		SetCVar("cameraPitchMoveSpeed", self.db.realm.pitchSpeed)
 		SetCVar("cameraDistanceMaxZoomFactor", self.db.realm.maxZoomFactor)
 		SetCVar("cameraZoomSpeed", self.db.realm.zoomSpeed)
-
-		-- New options
 		SetCVar("cameraBobbing", self.db.realm.cameraBobbing and 1 or 0)
 		SetCVar("cameraTerrainTilt", self.db.realm.cameraTerrainTilt and 1 or 0)
 		SetCVar("cameraPivot", self.db.realm.cameraPivot and 1 or 0)
@@ -378,8 +478,6 @@ function CameraTweaks:ApplySettings()
 	else
 		self:RestoreDefaults()
 	end
-
-	self.dirty = false
 end
 
 function CameraTweaks:RestoreDefaults()
@@ -387,33 +485,10 @@ function CameraTweaks:RestoreDefaults()
 	SetCVar("cameraPitchMoveSpeed", GetCVarDefault("cameraPitchMoveSpeed") or 90)
 	SetCVar("cameraDistanceMaxZoomFactor", GetCVarDefault("cameraDistanceMaxZoomFactor") or 1.9)
 	SetCVar("cameraZoomSpeed", GetCVarDefault("cameraZoomSpeed") or 20)
-
 	SetCVar("cameraBobbing", GetCVarDefault("cameraBobbing") or 0)
 	SetCVar("cameraTerrainTilt", GetCVarDefault("cameraTerrainTilt") or 1)
 	SetCVar("cameraPivot", GetCVarDefault("cameraPivot") or 1)
 	SetCVar("cameraWaterCollision", GetCVarDefault("cameraWaterCollision") or 1)
 	SetCVar("cameraYawSmoothSpeed", GetCVarDefault("cameraYawSmoothSpeed") or 180)
 	SetCVar("cameraPitchSmoothSpeed", GetCVarDefault("cameraPitchSmoothSpeed") or 45)
-end
-
-function CameraTweaks:ResetToDefaults()
-	self.db.realm.yawSpeed               = tonumber(GetCVarDefault("cameraYawMoveSpeed")) or 180
-	self.db.realm.pitchSpeed             = tonumber(GetCVarDefault("cameraPitchMoveSpeed")) or 90
-	self.db.realm.maxZoomFactor          = tonumber(GetCVarDefault("cameraDistanceMaxZoomFactor")) or 1.9
-	self.db.realm.zoomSpeed              = tonumber(GetCVarDefault("cameraZoomSpeed")) or 20
-
-	self.db.realm.cameraBobbing          = (tonumber(GetCVarDefault("cameraBobbing")) or 0) == 1
-	self.db.realm.cameraTerrainTilt      = (tonumber(GetCVarDefault("cameraTerrainTilt")) or 1) == 1
-	self.db.realm.cameraPivot            = (tonumber(GetCVarDefault("cameraPivot")) or 1) == 1
-	self.db.realm.cameraWaterCollision   = (tonumber(GetCVarDefault("cameraWaterCollision")) or 1) == 1
-	self.db.realm.cameraYawSmoothSpeed   = tonumber(GetCVarDefault("cameraYawSmoothSpeed")) or 180
-	self.db.realm.cameraPitchSmoothSpeed = tonumber(GetCVarDefault("cameraPitchSmoothSpeed")) or 45
-
-	self.db.realm.enabled                = true
-	self:ApplySettings()
-
-	-- Only re-open the standalone window if the user already has it open
-	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["CameraTweaks"] then
-		AceConfigDialog:Open("CameraTweaks")
-	end
 end

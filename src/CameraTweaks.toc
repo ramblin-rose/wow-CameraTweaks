@@ -1,6 +1,6 @@
 ## Interface: 11509, 20506, 50504, 120100
 ## Author: RamblinRose
-## Version: 1.0.0
+## Version: 1.1.0
 ## IconTexture: Interface\AddOns\CameraTweaks\Camera.png
 ## SavedVariables: CameraTweaksDB
 ## OptionalDeps: Ace3
