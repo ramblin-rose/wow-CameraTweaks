@@ -1,0 +1,62 @@
+## Interface: 11509, 20506, 50504, 120100
+## Author: RamblinRose
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\Perspectives\PerspectivesIcon.png
+## SavedVariables: PerspectivesDB
+## OptionalDeps: Ace3
+
+## Title: Perspectives
+## Title-deDE: Perspektiven
+## Title-frFR: Perspectives
+## Title-esES: Perspectivas
+## Title-esMX: Perspectivas
+## Title-ptBR: Perspectivas
+## Title-itIT: Prospettive
+## Title-ruRU: Перспективы
+## Title-koKR: 퍼스펙티브
+## Title-zhCN: 视角
+## Title-zhTW: 視角
+## Title-jaJP: パースペクティブ
+
+## Notes: Modify the default camera settings and create custom camera setting scenarios.
+## Notes-deDE: Ändert die Standard-Kameraeinstellungen und erstellt benutzerdefinierte Kamera-Szenarien.
+## Notes-frFR: Modifie les paramètres de caméra par défaut et crée des scénarios de paramètres de caméra personnalisés.
+## Notes-esES: Modifica la configuración de cámara predeterminada y crea escenarios de cámara personalizados.
+## Notes-esMX: Modifica la configuración de cámara predeterminada y crea escenarios de cámara personalizados.
+## Notes-ptBR: Modifica as configurações padrão da câmera e cria cenários de câmera personalizados.
+## Notes-itIT: Modifica le impostazioni predefinite della fotocamera e crea scenari di impostazioni personalizzati.
+## Notes-ruRU: Изменяет стандартные настройки камеры и создаёт пользовательские сценарии настроек камеры.
+## Notes-koKR: 기본 카메라 설정을 수정하고 사용자 지정 카메라 설정 시나리오를 만듭니다.
+## Notes-zhCN: 修改默认相机设置并创建自定义相机设置方案。
+## Notes-zhTW: 修改預設相機設定並建立自訂相機設定情境。
+## Notes-jaJP: デフォルトのカメラ設定を変更し、カスタムカメラ設定シナリオを作成します。
+
+## Category: User Interface
+## Category-deDE: Benutzeroberfläche
+## Category-frFR: Interface utilisateur
+## Category-esES: Interfaz de usuario
+## Category-esMX: Interfaz de usuario
+## Category-ptBR: Interface do Usuário
+## Category-itIT: Interfaccia utente
+## Category-ruRU: Пользовательский интерфейс
+## Category-koKR: 사용자 인터페이스
+## Category-zhCN: 用户界面
+## Category-zhTW: 使用者介面
+## Category-jaJP: ユーザーインターフェース
+
+embeds.xml
+
+Locales\enUS.lua
+Locales\deDE.lua
+Locales\frFR.lua
+Locales\esES.lua
+Locales\esMX.lua
+Locales\ptBR.lua
+Locales\itIT.lua
+Locales\ruRU.lua
+Locales\koKR.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+Locales\jaJP.lua
+
+Perspectives.lua

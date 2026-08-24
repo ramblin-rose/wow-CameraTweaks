@@ -2,12 +2,12 @@ local AceAddon = LibStub("AceAddon-3.0")
 local AceDB = LibStub("AceDB-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-local L = LibStub("AceLocale-3.0"):GetLocale("CameraTweaks")
+local L = LibStub("AceLocale-3.0"):GetLocale("Perspectives")
 
-local CameraTweaks = AceAddon:NewAddon("CameraTweaks", "AceConsole-3.0", "AceEvent-3.0")
+local Perspectives = AceAddon:NewAddon("Perspectives", "AceConsole-3.0", "AceEvent-3.0")
 
-CameraTweaks.working = {}
-CameraTweaks.initialState = {}
+Perspectives.working = {}
+Perspectives.initialState = {}
 
 local defaults = {
 	realm = {
@@ -27,15 +27,15 @@ local defaults = {
 }
 
 local options = {
-	name = L["Camera Tweaks"],
-	handler = CameraTweaks,
+	name = L["Perspectives"],
+	handler = Perspectives,
 	type = "group",
 	args = {
 		-- Status text
 		statusText = {
 			type = "description",
 			name = function()
-				local text = CameraTweaks.statusText or L["Waiting for Changes"]
+				local text = Perspectives.statusText or L["Waiting for Changes"]
 				if text == L["Changes Are Live"] then
 					return "|cff00ff00" .. text .. "|r"
 				else
@@ -56,7 +56,7 @@ local options = {
 
 		enabled = {
 			type = "toggle",
-			name = L["Enable Camera Tweaks"],
+			name = L["Enable Perspectives"],
 			desc = L["Apply the custom camera speeds"],
 			order = 1,
 			get = "GetWorking",
@@ -246,29 +246,29 @@ local options = {
 	},
 }
 
-function CameraTweaks:OnInitialize()
-	self.db = AceDB:New("CameraTweaksDB", defaults, true)
-	AceConfig:RegisterOptionsTable("CameraTweaks", options)
-	self.optionsFrame = AceConfigDialog:AddToBlizOptions("CameraTweaks", L["Camera Tweaks"])
+function Perspectives:OnInitialize()
+	self.db = AceDB:New("PerspectivesDB", defaults, true)
+	AceConfig:RegisterOptionsTable("Perspectives", options)
+	self.optionsFrame = AceConfigDialog:AddToBlizOptions("Perspectives", L["Perspectives"])
 
-	self:RegisterChatCommand("camera", "ChatCommand")
-	self:RegisterChatCommand("cam", "ChatCommand")
+	self:RegisterChatCommand("perspectives", "ChatCommand")
+	self:RegisterChatCommand("pvs", "ChatCommand")
 end
 
-function CameraTweaks:OnEnable()
+function Perspectives:OnEnable()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ApplySettings")
 	self:ApplySettings()
 end
 
-function CameraTweaks:OnDisable()
+function Perspectives:OnDisable()
 	self:RestoreDefaults()
 end
 
-function CameraTweaks:ChatCommand(input)
+function Perspectives:ChatCommand(input)
 	self:OpenOptions()
 end
 
-function CameraTweaks:OpenOptions()
+function Perspectives:OpenOptions()
 	self.initialState = {
 		enabled                = self.db.realm.enabled,
 		yawSpeed               = tonumber(GetCVar("cameraYawMoveSpeed")) or 180,
@@ -297,34 +297,34 @@ function CameraTweaks:OpenOptions()
 	end
 
 	C_Timer.After(0, function()
-		local status  = AceConfigDialog:GetStatusTable("CameraTweaks")
+		local status  = AceConfigDialog:GetStatusTable("Perspectives")
 		status.width  = 366
 		status.height = 460
 
-		local window  = AceConfigDialog.OpenFrames["CameraTweaks"]
+		local window  = AceConfigDialog.OpenFrames["Perspectives"]
 		if not window or window.type ~= "Window" then
 			local AceGUI = LibStub("AceGUI-3.0")
 			window = AceGUI:Create("Window")
-			window:SetTitle(L["Camera Tweaks"])
+			window:SetTitle(L["Perspectives"])
 			window:SetLayout("Fill")
 			window:SetWidth(366)
 			window:SetHeight(460)
 			window:SetCallback("OnClose", function(widget)
 				AceGUI:Release(widget)
-				AceConfigDialog.OpenFrames["CameraTweaks"] = nil
+				AceConfigDialog.OpenFrames["Perspectives"] = nil
 			end)
-			AceConfigDialog.OpenFrames["CameraTweaks"] = window
+			AceConfigDialog.OpenFrames["Perspectives"] = window
 		end
 
-		AceConfigDialog:Open("CameraTweaks")
+		AceConfigDialog:Open("Perspectives")
 	end)
 end
 
-function CameraTweaks:GetWorking(info)
+function Perspectives:GetWorking(info)
 	return self.working[info[#info]]
 end
 
-function CameraTweaks:SetWorking(info, value)
+function Perspectives:SetWorking(info, value)
 	local key = info[#info]
 
 	if key == "enabled" then
@@ -352,16 +352,16 @@ function CameraTweaks:SetWorking(info, value)
 	self:UpdateDialogState()
 end
 
-function CameraTweaks:IsWorkingDisabled()
+function Perspectives:IsWorkingDisabled()
 	return not self.working.enabled
 end
 
-function CameraTweaks:IsSaveDisabled()
+function Perspectives:IsSaveDisabled()
 	-- Disabled when addon is off OR when there are no changes
 	return (not self.working.enabled) or (not self:HasChanges())
 end
 
-function CameraTweaks:HasChanges()
+function Perspectives:HasChanges()
 	for k, v in pairs(self.initialState) do
 		if self.working[k] ~= v then
 			return true
@@ -370,19 +370,19 @@ function CameraTweaks:HasChanges()
 	return false
 end
 
-function CameraTweaks:UpdateDialogState()
+function Perspectives:UpdateDialogState()
 	if self:HasChanges() then
 		self.statusText = L["Changes Are Live"]
 	else
 		self.statusText = L["Waiting for Changes"]
 	end
 
-	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["CameraTweaks"] then
-		AceConfigDialog:Open("CameraTweaks")
+	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["Perspectives"] then
+		AceConfigDialog:Open("Perspectives")
 	end
 end
 
-function CameraTweaks:ApplySingle(key, value)
+function Perspectives:ApplySingle(key, value)
 	if key == "enabled" then return end
 
 	if key == "yawSpeed" then
@@ -408,7 +408,7 @@ function CameraTweaks:ApplySingle(key, value)
 	end
 end
 
-function CameraTweaks:ApplyBlizzardDefaults(keepEnabled)
+function Perspectives:ApplyBlizzardDefaults(keepEnabled)
 	self.working.yawSpeed               = tonumber(GetCVarDefault("cameraYawMoveSpeed")) or 180
 	self.working.pitchSpeed             = tonumber(GetCVarDefault("cameraPitchMoveSpeed")) or 90
 	self.working.maxZoomFactor          = tonumber(GetCVarDefault("cameraDistanceMaxZoomFactor")) or 1.9
@@ -429,12 +429,12 @@ function CameraTweaks:ApplyBlizzardDefaults(keepEnabled)
 	end
 end
 
-function CameraTweaks:Defaults()
+function Perspectives:Defaults()
 	self:ApplyBlizzardDefaults(true)
 	self:UpdateDialogState()
 end
 
-function CameraTweaks:Reset()
+function Perspectives:Reset()
 	for k, v in pairs(self.initialState) do
 		self.working[k] = v
 		self:ApplySingle(k, v)
@@ -442,7 +442,7 @@ function CameraTweaks:Reset()
 	self:UpdateDialogState()
 end
 
-function CameraTweaks:Save()
+function Perspectives:Save()
 	for k, v in pairs(self.working) do
 		self.db.realm[k] = v
 	end
@@ -450,20 +450,20 @@ function CameraTweaks:Save()
 	self:CloseOptions()
 end
 
-function CameraTweaks:Cancel()
+function Perspectives:Cancel()
 	for k, v in pairs(self.initialState) do
 		self:ApplySingle(k, v)
 	end
 	self:CloseOptions()
 end
 
-function CameraTweaks:CloseOptions()
-	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["CameraTweaks"] then
-		AceConfigDialog:Close("CameraTweaks")
+function Perspectives:CloseOptions()
+	if AceConfigDialog.OpenFrames and AceConfigDialog.OpenFrames["Perspectives"] then
+		AceConfigDialog:Close("Perspectives")
 	end
 end
 
-function CameraTweaks:ApplySettings()
+function Perspectives:ApplySettings()
 	if self.db.realm.enabled then
 		SetCVar("cameraYawMoveSpeed", self.db.realm.yawSpeed)
 		SetCVar("cameraPitchMoveSpeed", self.db.realm.pitchSpeed)
@@ -480,7 +480,7 @@ function CameraTweaks:ApplySettings()
 	end
 end
 
-function CameraTweaks:RestoreDefaults()
+function Perspectives:RestoreDefaults()
 	SetCVar("cameraYawMoveSpeed", GetCVarDefault("cameraYawMoveSpeed") or 180)
 	SetCVar("cameraPitchMoveSpeed", GetCVarDefault("cameraPitchMoveSpeed") or 90)
 	SetCVar("cameraDistanceMaxZoomFactor", GetCVarDefault("cameraDistanceMaxZoomFactor") or 1.9)

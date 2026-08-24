@@ -7,7 +7,7 @@ import { deleteAsync } from "del";
 // Read version from package.json
 const packageJson = JSON.parse(readFileSync("./package.json", "utf8"));
 const version = packageJson.version;
-const ADDON_NAME = "CameraTweaks";
+const ADDON_NAME = "Perspectives";
 
 // Source glob – only the required extensions, recursive
 const SRC_GLOB = "src/**/*.{xml,lua,png,toc}";
