@@ -1,4 +1,4 @@
-![Perspectives Icon](src/Perspectives.png)
+![Perspectives Icon](src/PerspectivesIcon.png)
 
 **Perspectives** is a lightweight World of Warcraft addon that gives you precise control over camera behavior through a clean options panel.
 
@@ -9,7 +9,7 @@ Adjust mouse look speeds, zoom distance, smoothing, and several camera physics o
 ## Features
 
 - **Enable / Disable toggle**  
-  Turning the addon off immediately restores Blizzard defaults. Turning it back on reloads your saved settings.
+  Turning the addon off- immediately restores Blizzard defaults. Turning it back on reloads your saved settings.
 
 - **Fully adjustable camera parameters**
   - Yaw Speed (horizontal mouse look)

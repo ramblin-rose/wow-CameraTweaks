@@ -31,6 +31,6 @@ L["Set all values to Blizzard defaults (live)"] = "Alle Werte auf Blizzard-Stand
 L["Reset"] = "Zurücksetzen"
 L["Restore the values that were present when the dialog was opened"] = "Stellt die Werte wieder her, die beim Öffnen des Dialogs vorhanden waren"
 L["Save"] = "Speichern"
-L["Save the current values and close"] = "Aktuelle Werte speichern und schließen"
+L["Save the current values"] = "Aktuelle Werte speichern"
 L["Cancel"] = "Abbrechen"
 L["Discard changes and close"] = "Änderungen verwerfen und schließen"
