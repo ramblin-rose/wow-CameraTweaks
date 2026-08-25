@@ -31,6 +31,6 @@ L["Set all values to Blizzard defaults (live)"] = "将所有值设置为暴雪�
 L["Reset"] = "重置"
 L["Restore the values that were present when the dialog was opened"] = "恢复打开对话框时的值"
 L["Save"] = "保存"
-L["Save the current values and close"] = "保存当前值并关闭"
+L["Save the current values"] = "保存当前值"
 L["Cancel"] = "取消"
 L["Discard changes and close"] = "放弃更改并关闭"

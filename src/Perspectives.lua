@@ -7,7 +7,16 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Perspectives")
 local Perspectives = AceAddon:NewAddon("Perspectives", "AceConsole-3.0", "AceEvent-3.0")
 
 Perspectives.working = {}
+-- Captured when the dialog opens; never mutated until the next OpenOptions.
 Perspectives.initialState = {}
+
+local function CopySettings(src)
+	local dest = {}
+	for k, v in pairs(src) do
+		dest[k] = v
+	end
+	return dest
+end
 
 local defaults = {
 	realm = {
@@ -231,7 +240,7 @@ local options = {
 		save = {
 			type = "execute",
 			name = L["Save"],
-			desc = L["Save the current values and close"],
+			desc = L["Save the current values"],
 			order = 10,
 			func = "Save",
 			disabled = "IsSaveDisabled",
@@ -283,10 +292,7 @@ function Perspectives:OpenOptions()
 		cameraPitchSmoothSpeed = tonumber(GetCVar("cameraPitchSmoothSpeed")) or 45,
 	}
 
-	self.working = {}
-	for k, v in pairs(self.initialState) do
-		self.working[k] = v
-	end
+	self.working = CopySettings(self.initialState)
 
 	self.statusText = L["Waiting for Changes"]
 
@@ -357,13 +363,13 @@ function Perspectives:IsWorkingDisabled()
 end
 
 function Perspectives:IsSaveDisabled()
-	-- Disabled when addon is off OR when there are no changes
-	return (not self.working.enabled) or (not self:HasChanges())
+	-- Disabled when addon is off OR when working already matches the last save
+	return (not self.working.enabled) or (not self:HasUnsavedChanges())
 end
 
-function Perspectives:HasChanges()
-	for k, v in pairs(self.initialState) do
-		if self.working[k] ~= v then
+function Perspectives:HasUnsavedChanges()
+	for k, v in pairs(self.working) do
+		if self.db.realm[k] ~= v then
 			return true
 		end
 	end
@@ -371,7 +377,7 @@ function Perspectives:HasChanges()
 end
 
 function Perspectives:UpdateDialogState()
-	if self:HasChanges() then
+	if self:HasUnsavedChanges() then
 		self.statusText = L["Changes Are Live"]
 	else
 		self.statusText = L["Waiting for Changes"]
@@ -435,8 +441,8 @@ function Perspectives:Defaults()
 end
 
 function Perspectives:Reset()
-	for k, v in pairs(self.initialState) do
-		self.working[k] = v
+	self.working = CopySettings(self.initialState)
+	for k, v in pairs(self.working) do
 		self:ApplySingle(k, v)
 	end
 	self:UpdateDialogState()
@@ -447,7 +453,7 @@ function Perspectives:Save()
 		self.db.realm[k] = v
 	end
 	self:ApplySettings()
-	self:CloseOptions()
+	self:UpdateDialogState()
 end
 
 function Perspectives:Cancel()

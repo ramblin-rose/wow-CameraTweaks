@@ -31,6 +31,6 @@ L["Set all values to Blizzard defaults (live)"] = "모든 값을 블리자드 �
 L["Reset"] = "초기화"
 L["Restore the values that were present when the dialog was opened"] = "대화상자가 열렸을 때의 값으로 복원합니다"
 L["Save"] = "저장"
-L["Save the current values and close"] = "현재 값을 저장하고 닫습니다"
+L["Save the current values"] = "현재 값을 저장합니다"
 L["Cancel"] = "취소"
 L["Discard changes and close"] = "변경 사항을 취소하고 닫습니다"
